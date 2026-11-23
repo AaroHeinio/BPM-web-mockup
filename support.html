@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BPM Support</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E0E11}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid #B79CFF;outline-offset:3px}
+.navlink{padding:12px 0;color:#A9A6BA}
+.navlink:hover{color:#F4F3F8}
+.field{display:block;width:100%;box-sizing:border-box;margin-top:8px;padding:14px 16px;border-radius:12px;border:1.5px solid #3A3848;background:#14141A;color:#F4F3F8;font:500 16px Inter,system-ui,sans-serif}
+.field:focus{border-color:#B79CFF}
+.faq{background:#1A1A21;border-radius:16px;margin-bottom:12px}
+.faq summary{cursor:pointer;padding:20px 24px;font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin:0;padding:0 24px 22px;font-size:16px;line-height:1.6;color:#A9A6BA}
+</style>
+
+</head>
+<body>
+<div id="app"></div>
+<script type="text/template" id="tpl">
+
+<div style="background:#0E0E11;color:#F4F3F8;font-family:Inter,system-ui,sans-serif">
+
+<header style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 32px;padding:20px 64px">
+<a href="index.html" aria-label="BPM home" style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px"><span style="display:inline-block;width:28px;height:28px;border-radius:8px;background:#B79CFF"></span>BPM</a>
+<nav aria-label="Main" style="display:flex;flex-wrap:wrap;gap:4px 28px;font-size:15px;font-weight:500">
+<a class="navlink" href="index.html">Home</a>
+<a class="navlink" href="index.html">Features</a>
+<a class="navlink" href="index.html">Download</a>
+<a class="navlink" href="support.html" style="color:#B79CFF">Support</a>
+</nav>
+<a href="home.html" style="padding:12px 22px;border-radius:999px;background:#B79CFF;color:#14101F;font-weight:700;font-size:15px">Open web player</a>
+</header>
+
+<section style="max-width:1312px;margin:0 auto;padding:48px 64px 32px;box-sizing:border-box">
+<h1 style="margin:0;font-size:56px;line-height:1.05;font-weight:800;letter-spacing:-.03em">How can we help?</h1>
+<p style="margin:16px 0 0;max-width:560px;font-size:18px;line-height:1.55;color:#A9A6BA">Quick answers about the web player, the app and the Vibe Dial. Can't find yours? Send us a message.</p>
+<form style="margin-top:32px;max-width:640px" onSubmit="{{ stop }}">
+<label for="q" style="position:absolute;left:-9999px">Search help articles</label>
+<input id="q" class="field" style="margin-top:0;padding:18px 20px;font-size:17px" type="search" placeholder="Search help, e.g. offline mode">
+</form>
+</section>
+
+<section style="max-width:1312px;margin:0 auto;padding:32px 64px 104px;box-sizing:border-box;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+<div style="flex:1 1 520px">
+<h2 style="margin:0 0 24px;font-size:28px;font-weight:700">Common questions</h2>
+<details class="faq" open>
+<summary>Does BPM work in my browser?<span aria-hidden="true" style="color:#B79CFF">+</span></summary>
+<p>Yes. The web player has Home, Search, Library, playlists, the Play view and the Vibe Dial, and it uses the same account as the app.</p>
+</details>
+<details class="faq">
+<summary>What does the Vibe Dial change?<span aria-hidden="true" style="color:#B79CFF">+</span></summary>
+<p>It moves what plays next along two axes, Calm to Energetic and Familiar to New. You see a preview of the next five tracks first, and nothing changes until you apply it.</p>
+</details>
+<details class="faq">
+<summary>Will changing the dial interrupt my song?<span aria-hidden="true" style="color:#B79CFF">+</span></summary>
+<p>No. New tracks start after the current song finishes.</p>
+</details>
+<details class="faq">
+<summary>How do I listen offline?<span aria-hidden="true" style="color:#B79CFF">+</span></summary>
+<p>Download playlists or albums in the app, then switch on Offline mode in your Library. BPM will then only play your downloads.</p>
+</details>
+<details class="faq">
+<summary>How do I delete my account?<span aria-hidden="true" style="color:#B79CFF">+</span></summary>
+<p>Open your account settings in the web player and choose Delete account. You can also write to us using the form.</p>
+</details>
+</div>
+
+<div style="flex:1 1 400px;background:#1A1A21;border-radius:24px;padding:32px;box-sizing:border-box">
+<h2 style="margin:0 0 8px;font-size:28px;font-weight:700">Contact us</h2>
+<p style="margin:0 0 24px;font-size:16px;line-height:1.5;color:#A9A6BA">We reply by email.</p>
+<form onSubmit="{{ stop }}">
+<label style="display:block;font-size:14px;font-weight:600;margin-bottom:20px">Name<input class="field" type="text" autocomplete="name"></label>
+<label style="display:block;font-size:14px;font-weight:600;margin-bottom:20px">Email<input class="field" type="email" autocomplete="email"></label>
+<label style="display:block;font-size:14px;font-weight:600;margin-bottom:24px">Message<textarea class="field" rows="5" style="resize:vertical"></textarea></label>
+<button type="submit" style="width:100%;padding:15px 20px;border:0;border-radius:999px;background:#B79CFF;color:#14101F;font:700 16px Inter,system-ui,sans-serif;cursor:pointer">Send message</button>
+</form>
+</div>
+</section>
+
+<footer style="border-top:1px solid #23222C;padding:40px 64px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;font-size:14px;color:#A9A6BA">
+<div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:#F4F3F8"><span style="display:inline-block;width:22px;height:22px;border-radius:6px;background:#B79CFF"></span>BPM</div>
+<nav aria-label="Footer" style="display:flex;flex-wrap:wrap;gap:4px 28px">
+<a class="navlink" href="support.html">Privacy</a>
+<a class="navlink" href="support.html">Terms</a>
+</nav>
+<div>BPM is a student concept project.</div>
+</footer>
+
+</div>
+</script>
+<script>
+class DCLogic{constructor(){}setState(p){Object.assign(this.state,p);render();}}
+
+
+class Component extends DCLogic {
+renderVals() {
+return {
+stop: (e) => { if (e && e.preventDefault) e.preventDefault(); }
+};
+}
+}
+
+
+(function(){
+const tplHTML=document.getElementById('tpl').textContent;
+const t=document.createElement('template');t.innerHTML=tplHTML;
+const app=document.getElementById('app');
+const VOID=new Set(['input','img','br','hr','meta','link']);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const escA=s=>esc(s).replace(/"/g,'&quot;');
+let handlers=[];
+function ev(expr,scope){return new Function('s','with(s){return ('+expr+')}')(scope);}
+function sub(str,scope,asText){return str.replace(/\{\{\s*([\s\S]+?)\s*\}\}/g,(m,e)=>{const v=ev(e,scope);return v==null?'':(asText?esc(v):escA(v));});}
+function walk(node,scope){
+ if(node.nodeType===3)return sub(node.nodeValue,scope,true);
+ if(node.nodeType!==1)return '';
+ const tag=node.tagName.toLowerCase();
+ const kids=(sc)=>Array.from(node.childNodes).map(c=>walk(c,sc)).join('');
+ if(tag==='sc-for'){
+  const arr=ev(node.getAttribute('each').replace(/^\{\{|\}\}$/g,'').trim(),scope)||[];
+  const as=node.getAttribute('as');let out='';
+  arr.forEach(item=>{const s2=Object.create(scope);s2[as]=item;out+=kids(s2);});return out;}
+ if(tag==='sc-if'){
+  const v=ev(node.getAttribute('value').replace(/^\{\{|\}\}$/g,'').trim(),scope);
+  return v?kids(scope):'';}
+ let a='';
+ for(const at of Array.from(node.attributes)){
+  const n=at.name,v=at.value;
+  if(n.startsWith('hint-'))continue;
+  if(n.startsWith('on')&&/^\{\{[\s\S]+\}\}$/.test(v.trim())){
+   const fn=ev(v.trim().replace(/^\{\{|\}\}$/g,'').trim(),scope);
+   handlers.push(fn);a+=' data-h-'+n.slice(2).toLowerCase()+'="'+(handlers.length-1)+'"';continue;}
+  a+=' '+n+'="'+sub(v,scope,false)+'"';
+ }
+ if(VOID.has(tag))return '<'+tag+a+'>';
+ return '<'+tag+a+'>'+kids(scope)+'</'+tag+'>';
+}
+window.render=function(){
+ handlers=[];
+ const vals=window.__c.renderVals();
+ const scope=Object.assign(Object.create(null),vals);
+ app.innerHTML=Array.from(t.content.childNodes).map(n=>walk(n,scope)).join('');
+ app.querySelectorAll('*').forEach(el=>{
+  for(const at of Array.from(el.attributes)){
+   if(at.name.startsWith('data-h-')){
+    const type=at.name.slice(7),fn=handlers[+at.value];
+    el.addEventListener(type,fn);}
+  }
+ });
+};
+window.__c=new Component();
+window.render();
+})();
+</script>
+</body>
+</html>

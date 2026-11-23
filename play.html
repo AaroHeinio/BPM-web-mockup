@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BPM Web player Play view</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E0E11}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #B79CFF;outline-offset:3px}
+.nav{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;font-weight:600;font-size:15px;color:#A9A6BA}
+.nav:hover{background:#17171D;color:#F4F3F8}
+.nav-on{background:#23222C;color:#B79CFF}
+.pin{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:10px;font-size:14px;color:#A9A6BA}
+.pin:hover{background:#17171D;color:#F4F3F8}
+.sq{width:36px;height:36px;border-radius:8px;flex:none}
+.art-a{background:linear-gradient(135deg,#1E2048,#B79CFF)}
+.art-b{background:linear-gradient(135deg,#2B5876,#4E4376)}
+.art-c{background:linear-gradient(135deg,#F2994A,#B0306A)}
+.art-d{background:linear-gradient(135deg,#0F2027,#2C9A8F)}
+.art-e{background:linear-gradient(135deg,#6B4D9E,#E9A98F)}
+.card{display:block;background:#1A1A21;border-radius:16px;padding:14px}
+.card:hover{background:#21212A}
+.card .big{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:12px}
+.chip{display:inline-block;padding:10px 16px;border-radius:999px;background:#23222C;font-size:14px;font-weight:600;color:#F4F3F8}
+.chip:hover{background:#2E2D3A}
+.ibtn{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#F4F3F8}
+.ibtn:hover{background:#23222C}
+
+</style>
+
+</head>
+<body>
+<div id="app"></div>
+<script type="text/template" id="tpl">
+
+<div style="display:flex;flex-wrap:wrap;min-height:1100px;background:#0E0E11;color:#F4F3F8;font-family:Inter,system-ui,sans-serif">
+
+<div style="display:flex;flex-direction:column;flex:1 1 100%;min-height:1100px">
+<div style="display:flex;flex-wrap:wrap;flex:1">
+
+<nav aria-label="Web player" style="flex:1 1 232px;max-width:264px;background:#0A0A0D;padding:24px 16px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+<a href="index.html" aria-label="BPM website" style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;padding:0 14px 20px"><span style="display:inline-block;width:28px;height:28px;border-radius:8px;background:#B79CFF"></span>BPM</a>
+<a class="nav" href="home.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+<a class="nav" href="search.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</a>
+<a class="nav" href="library.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4v16M9 4v16M14 6l6 14"/></svg>Library</a>
+<div style="margin:24px 14px 8px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#6F6C80">PINNED</div>
+<a class="pin" href="playlist.html"><span class="sq art-a"></span>Night Drive</a>
+<a class="pin" href="library.html"><span class="sq art-e"></span>Liked Songs</a>
+<a class="pin" href="library.html"><span class="sq art-c"></span>Hurry Up</a>
+<div style="flex:1"></div>
+<a class="nav" href="support.html" style="font-size:14px">Help</a>
+<a class="nav" href="auth.html" style="font-size:14px">Log out</a>
+</nav>
+
+<main style="flex:999 1 560px;min-width:0;padding:32px 40px 48px;box-sizing:border-box">
+<div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+<section style="flex:1 1 380px;max-width:520px">
+<div class="art-a" style="width:100%;aspect-ratio:1;border-radius:24px;margin-bottom:28px"></div>
+<h1 style="margin:0;font-size:38px;font-weight:800;letter-spacing:-.02em">Outro</h1>
+<div style="margin-top:6px;font-size:18px;color:#A9A6BA">M83 &middot; Hurry Up, We&rsquo;re Dreaming</div>
+<div style="display:flex;align-items:center;gap:12px;margin:28px 0 16px;font-size:13px;color:#A9A6BA"><span>1:21</span><span style="flex:1;height:6px;border-radius:3px;background:#3A3848;position:relative"><span style="position:absolute;left:0;top:0;bottom:0;width:33%;border-radius:3px;background:#B79CFF"></span></span><span>4:07</span></div>
+<div style="display:flex;align-items:center;justify-content:center;gap:16px">
+<a class="ibtn" href="play.html" aria-label="Previous"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Pause" style="width:64px;height:64px;background:#B79CFF;color:#14101F"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Next"><svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></a>
+</div>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px">
+<span class="chip">Devices</span><span class="chip">Lyrics</span><span class="chip">Queue</span><span class="chip">Share</span>
+</div>
+</section>
+<section style="flex:1 1 360px">
+<a href="vibe-dial.html" style="display:block;padding:22px 24px;border-radius:20px;background:linear-gradient(120deg,#23203A,#3A2B63);margin-bottom:32px">
+<div style="font-size:13px;font-weight:700;letter-spacing:.08em;color:#B79CFF">VIBE DIAL</div>
+<div style="margin:6px 0 4px;font-size:20px;font-weight:700">Wind down &middot; Calm, Familiar</div>
+<div style="font-size:14px;color:#CFC8E8">Next 5 tracks follow this mood. Tap to adjust.</div>
+</a>
+<h2 style="margin:0 0 14px;font-size:22px;font-weight:700">Up next</h2>
+<div style="background:#1A1A21;border-radius:16px;padding:8px">
+<sc-for each="{{ queue }}" as="q" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:16px;padding:10px 12px"><span class="{{ q.art }} sq" style="width:48px;height:48px"></span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:16px">{{ q.title }}</span><span style="display:block;font-size:14px;color:#A9A6BA">{{ q.artist }}</span></span><span style="font-size:14px;color:#A9A6BA">{{ q.len }}</span></div>
+</sc-for>
+</div>
+</section>
+</div>
+</main>
+</div>
+
+<div role="region" aria-label="Now playing" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px;padding:14px 24px;background:#14141A;border-top:1px solid #23222C">
+<a href="play.html" style="flex:1 1 240px;display:flex;align-items:center;gap:14px;min-width:0">
+<span class="sq art-a" style="width:52px;height:52px"></span>
+<span><span style="display:block;font-weight:600;font-size:15px">Outro</span><span style="display:block;font-size:13px;color:#A9A6BA">M83</span></span>
+</a>
+<div style="flex:2 1 360px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<div style="display:flex;align-items:center;gap:8px">
+<a class="ibtn" href="play.html" aria-label="Previous"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Pause" style="background:#F4F3F8;color:#14101F"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Next"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></a>
+</div>
+<div style="display:flex;align-items:center;gap:10px;width:100%;max-width:520px;font-size:12px;color:#A9A6BA"><span>1:21</span><span style="flex:1;height:4px;border-radius:2px;background:#3A3848;position:relative"><span style="position:absolute;left:0;top:0;bottom:0;width:33%;border-radius:2px;background:#B79CFF"></span></span><span>4:07</span></div>
+</div>
+<a href="vibe-dial.html" style="flex:1 1 200px;display:flex;justify-content:flex-end"><span class="chip" style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:#B79CFF"></span>Vibe: Wind down</span></a>
+</div>
+</div>
+
+</div>
+</script>
+<script>
+class DCLogic{constructor(){}setState(p){Object.assign(this.state,p);render();}}
+
+
+class Component extends DCLogic {
+renderVals() {
+return {
+queue: [
+{ title: 'Resonance', artist: 'HOME', art: 'art-b', len: '3:32' },
+{ title: 'Holocene', artist: 'Bon Iver', art: 'art-b', len: '5:36' },
+{ title: 'When the Sun Hits', artist: 'Slowdive', art: 'art-d', len: '4:48' },
+{ title: 'A Real Hero', artist: 'College', art: 'art-e', len: '4:29' },
+{ title: 'Sleep Alone', artist: 'Bon Iver', art: 'art-b', len: '3:50' }
+]
+};
+}
+}
+
+
+(function(){
+const tplHTML=document.getElementById('tpl').textContent;
+const t=document.createElement('template');t.innerHTML=tplHTML;
+const app=document.getElementById('app');
+const VOID=new Set(['input','img','br','hr','meta','link']);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const escA=s=>esc(s).replace(/"/g,'&quot;');
+let handlers=[];
+function ev(expr,scope){return new Function('s','with(s){return ('+expr+')}')(scope);}
+function sub(str,scope,asText){return str.replace(/\{\{\s*([\s\S]+?)\s*\}\}/g,(m,e)=>{const v=ev(e,scope);return v==null?'':(asText?esc(v):escA(v));});}
+function walk(node,scope){
+ if(node.nodeType===3)return sub(node.nodeValue,scope,true);
+ if(node.nodeType!==1)return '';
+ const tag=node.tagName.toLowerCase();
+ const kids=(sc)=>Array.from(node.childNodes).map(c=>walk(c,sc)).join('');
+ if(tag==='sc-for'){
+  const arr=ev(node.getAttribute('each').replace(/^\{\{|\}\}$/g,'').trim(),scope)||[];
+  const as=node.getAttribute('as');let out='';
+  arr.forEach(item=>{const s2=Object.create(scope);s2[as]=item;out+=kids(s2);});return out;}
+ if(tag==='sc-if'){
+  const v=ev(node.getAttribute('value').replace(/^\{\{|\}\}$/g,'').trim(),scope);
+  return v?kids(scope):'';}
+ let a='';
+ for(const at of Array.from(node.attributes)){
+  const n=at.name,v=at.value;
+  if(n.startsWith('hint-'))continue;
+  if(n.startsWith('on')&&/^\{\{[\s\S]+\}\}$/.test(v.trim())){
+   const fn=ev(v.trim().replace(/^\{\{|\}\}$/g,'').trim(),scope);
+   handlers.push(fn);a+=' data-h-'+n.slice(2).toLowerCase()+'="'+(handlers.length-1)+'"';continue;}
+  a+=' '+n+'="'+sub(v,scope,false)+'"';
+ }
+ if(VOID.has(tag))return '<'+tag+a+'>';
+ return '<'+tag+a+'>'+kids(scope)+'</'+tag+'>';
+}
+window.render=function(){
+ handlers=[];
+ const vals=window.__c.renderVals();
+ const scope=Object.assign(Object.create(null),vals);
+ app.innerHTML=Array.from(t.content.childNodes).map(n=>walk(n,scope)).join('');
+ app.querySelectorAll('*').forEach(el=>{
+  for(const at of Array.from(el.attributes)){
+   if(at.name.startsWith('data-h-')){
+    const type=at.name.slice(7),fn=handlers[+at.value];
+    el.addEventListener(type,fn);}
+  }
+ });
+};
+window.__c=new Component();
+window.render();
+})();
+</script>
+</body>
+</html>

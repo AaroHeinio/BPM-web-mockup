@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BPM Web player Library</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0E0E11}
+a{color:inherit;text-decoration:none}
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #B79CFF;outline-offset:3px}
+.nav{display:flex;align-items:center;gap:14px;padding:12px 14px;border-radius:12px;font-weight:600;font-size:15px;color:#A9A6BA}
+.nav:hover{background:#17171D;color:#F4F3F8}
+.nav-on{background:#23222C;color:#B79CFF}
+.pin{display:flex;align-items:center;gap:12px;padding:8px 14px;border-radius:10px;font-size:14px;color:#A9A6BA}
+.pin:hover{background:#17171D;color:#F4F3F8}
+.sq{width:36px;height:36px;border-radius:8px;flex:none}
+.art-a{background:linear-gradient(135deg,#1E2048,#B79CFF)}
+.art-b{background:linear-gradient(135deg,#2B5876,#4E4376)}
+.art-c{background:linear-gradient(135deg,#F2994A,#B0306A)}
+.art-d{background:linear-gradient(135deg,#0F2027,#2C9A8F)}
+.art-e{background:linear-gradient(135deg,#6B4D9E,#E9A98F)}
+.card{display:block;background:#1A1A21;border-radius:16px;padding:14px}
+.card:hover{background:#21212A}
+.card .big{width:100%;aspect-ratio:1;border-radius:10px;margin-bottom:12px}
+.chip{display:inline-block;padding:10px 16px;border-radius:999px;background:#23222C;font-size:14px;font-weight:600;color:#F4F3F8}
+.chip:hover{background:#2E2D3A}
+.ibtn{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#F4F3F8}
+.ibtn:hover{background:#23222C}
+.fchip{padding:10px 18px;border:0;border-radius:999px;background:#23222C;color:#F4F3F8;font:600 14px Inter,system-ui,sans-serif;cursor:pointer}
+.fchip:hover{background:#2E2D3A}
+.fchip-on{background:#B79CFF;color:#14101F}
+.fchip-on:hover{background:#C9B5FF}
+</style>
+
+</head>
+<body>
+<div id="app"></div>
+<script type="text/template" id="tpl">
+
+<div style="display:flex;flex-wrap:wrap;min-height:1250px;background:#0E0E11;color:#F4F3F8;font-family:Inter,system-ui,sans-serif">
+
+<div style="display:flex;flex-direction:column;flex:1 1 100%;min-height:1250px">
+<div style="display:flex;flex-wrap:wrap;flex:1">
+
+<nav aria-label="Web player" style="flex:1 1 232px;max-width:264px;background:#0A0A0D;padding:24px 16px;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+<a href="index.html" aria-label="BPM website" style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;padding:0 14px 20px"><span style="display:inline-block;width:28px;height:28px;border-radius:8px;background:#B79CFF"></span>BPM</a>
+<a class="nav" href="home.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</a>
+<a class="nav" href="search.html"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Search</a>
+<a class="nav nav-on" href="library.html" aria-current="page"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 4v16M9 4v16M14 6l6 14"/></svg>Library</a>
+<div style="margin:24px 14px 8px;font-size:12px;font-weight:700;letter-spacing:.08em;color:#6F6C80">PINNED</div>
+<a class="pin" href="playlist.html"><span class="sq art-a"></span>Night Drive</a>
+<a class="pin" href="library.html"><span class="sq art-e"></span>Liked Songs</a>
+<a class="pin" href="library.html"><span class="sq art-c"></span>Hurry Up</a>
+<div style="flex:1"></div>
+<a class="nav" href="support.html" style="font-size:14px">Help</a>
+<a class="nav" href="auth.html" style="font-size:14px">Log out</a>
+</nav>
+
+<main style="flex:999 1 560px;min-width:0;padding:32px 40px 48px;box-sizing:border-box">
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px">
+<h1 style="margin:0;font-size:36px;font-weight:800;letter-spacing:-.02em">Your Library</h1>
+<label style="display:inline-flex;align-items:center;gap:12px;font-size:15px;font-weight:600;cursor:pointer"><input type="checkbox" style="width:22px;height:22px;accent-color:#B79CFF">Offline mode</label>
+</div>
+<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;margin-bottom:32px">
+<div style="display:flex;flex-wrap:wrap;gap:10px">
+<sc-for each="{{ filters }}" as="f" hint-placeholder-count="5"><button onClick="{{ f.pick }}" class="{{ f.cls }}">{{ f.label }}</button></sc-for>
+</div>
+<div style="font-size:14px;color:#A9A6BA">Sort: <span style="color:#F4F3F8;font-weight:600">Recently played</span></div>
+</div>
+<h2 style="margin:0 0 16px;font-size:22px;font-weight:700">Pinned favorites</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;margin-bottom:40px">
+<sc-for each="{{ pinned }}" as="p" hint-placeholder-count="3">
+<a href="{{ p.href }}" style="display:flex;align-items:center;gap:14px;background:#1A1A21;border-radius:14px;padding:10px"><span class="{{ p.art }} sq" style="width:56px;height:56px;border-radius:10px"></span><span><span style="display:block;font-weight:600;font-size:16px">{{ p.title }}</span><span style="display:block;font-size:13px;color:#A9A6BA">{{ p.sub }}</span></span></a>
+</sc-for>
+</div>
+<h2 style="margin:0 0 16px;font-size:22px;font-weight:700">All your music</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px">
+<sc-for each="{{ items }}" as="m" hint-placeholder-count="6">
+<a class="card" href="{{ m.href }}"><div class="{{ m.art }} big"></div><div style="font-weight:600;font-size:16px">{{ m.title }}</div><div style="margin-top:4px;font-size:14px;color:#A9A6BA">{{ m.sub }}</div></a>
+</sc-for>
+</div>
+</main>
+</div>
+
+<div role="region" aria-label="Now playing" style="display:flex;flex-wrap:wrap;align-items:center;gap:16px 32px;padding:14px 24px;background:#14141A;border-top:1px solid #23222C">
+<a href="play.html" style="flex:1 1 240px;display:flex;align-items:center;gap:14px;min-width:0">
+<span class="sq art-a" style="width:52px;height:52px"></span>
+<span><span style="display:block;font-weight:600;font-size:15px">Outro</span><span style="display:block;font-size:13px;color:#A9A6BA">M83</span></span>
+</a>
+<div style="flex:2 1 360px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<div style="display:flex;align-items:center;gap:8px">
+<a class="ibtn" href="play.html" aria-label="Previous"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Pause" style="background:#F4F3F8;color:#14101F"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg></a>
+<a class="ibtn" href="play.html" aria-label="Next"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></a>
+</div>
+<div style="display:flex;align-items:center;gap:10px;width:100%;max-width:520px;font-size:12px;color:#A9A6BA"><span>1:21</span><span style="flex:1;height:4px;border-radius:2px;background:#3A3848;position:relative"><span style="position:absolute;left:0;top:0;bottom:0;width:33%;border-radius:2px;background:#B79CFF"></span></span><span>4:07</span></div>
+</div>
+<a href="vibe-dial.html" style="flex:1 1 200px;display:flex;justify-content:flex-end"><span class="chip" style="display:inline-flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:50%;background:#B79CFF"></span>Vibe: Wind down</span></a>
+</div>
+</div>
+
+</div>
+</script>
+<script>
+class DCLogic{constructor(){}setState(p){Object.assign(this.state,p);render();}}
+
+
+class Component extends DCLogic {
+state = { f: 'All' };
+renderVals() {
+const fs = ['All','Playlists','Albums','Artists','Downloaded'];
+return {
+filters: fs.map(l => ({ label: l, cls: this.state.f === l ? 'fchip fchip-on' : 'fchip', pick: () => this.setState({ f: l }) })),
+pinned: [
+{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'Player-Playlist.dc.html' },
+{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'Player-Playlist.dc.html' },
+{ title: 'Hurry Up', sub: 'Playlist', art: 'art-c', href: 'Player-Playlist.dc.html' }
+],
+items: [
+{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'Player-Playlist.dc.html' },
+{ title: 'Daily Mix 1', sub: 'Playlist', art: 'art-b', href: 'Player-Playlist.dc.html' },
+{ title: 'Hurry Up, We\u2019re Dreaming', sub: 'Album \u00b7 M83', art: 'art-c', href: 'Player-Playlist.dc.html' },
+{ title: 'Discover', sub: 'Playlist', art: 'art-d', href: 'Player-Playlist.dc.html' },
+{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'Player-Playlist.dc.html' },
+{ title: 'Souvlaki', sub: 'Album \u00b7 Slowdive', art: 'art-b', href: 'Player-Playlist.dc.html' }
+]
+};
+}
+}
+
+
+(function(){
+const tplHTML=document.getElementById('tpl').textContent;
+const t=document.createElement('template');t.innerHTML=tplHTML;
+const app=document.getElementById('app');
+const VOID=new Set(['input','img','br','hr','meta','link']);
+const esc=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const escA=s=>esc(s).replace(/"/g,'&quot;');
+let handlers=[];
+function ev(expr,scope){return new Function('s','with(s){return ('+expr+')}')(scope);}
+function sub(str,scope,asText){return str.replace(/\{\{\s*([\s\S]+?)\s*\}\}/g,(m,e)=>{const v=ev(e,scope);return v==null?'':(asText?esc(v):escA(v));});}
+function walk(node,scope){
+ if(node.nodeType===3)return sub(node.nodeValue,scope,true);
+ if(node.nodeType!==1)return '';
+ const tag=node.tagName.toLowerCase();
+ const kids=(sc)=>Array.from(node.childNodes).map(c=>walk(c,sc)).join('');
+ if(tag==='sc-for'){
+  const arr=ev(node.getAttribute('each').replace(/^\{\{|\}\}$/g,'').trim(),scope)||[];
+  const as=node.getAttribute('as');let out='';
+  arr.forEach(item=>{const s2=Object.create(scope);s2[as]=item;out+=kids(s2);});return out;}
+ if(tag==='sc-if'){
+  const v=ev(node.getAttribute('value').replace(/^\{\{|\}\}$/g,'').trim(),scope);
+  return v?kids(scope):'';}
+ let a='';
+ for(const at of Array.from(node.attributes)){
+  const n=at.name,v=at.value;
+  if(n.startsWith('hint-'))continue;
+  if(n.startsWith('on')&&/^\{\{[\s\S]+\}\}$/.test(v.trim())){
+   const fn=ev(v.trim().replace(/^\{\{|\}\}$/g,'').trim(),scope);
+   handlers.push(fn);a+=' data-h-'+n.slice(2).toLowerCase()+'="'+(handlers.length-1)+'"';continue;}
+  a+=' '+n+'="'+sub(v,scope,false)+'"';
+ }
+ if(VOID.has(tag))return '<'+tag+a+'>';
+ return '<'+tag+a+'>'+kids(scope)+'</'+tag+'>';
+}
+window.render=function(){
+ handlers=[];
+ const vals=window.__c.renderVals();
+ const scope=Object.assign(Object.create(null),vals);
+ app.innerHTML=Array.from(t.content.childNodes).map(n=>walk(n,scope)).join('');
+ app.querySelectorAll('*').forEach(el=>{
+  for(const at of Array.from(el.attributes)){
+   if(at.name.startsWith('data-h-')){
+    const type=at.name.slice(7),fn=handlers[+at.value];
+    el.addEventListener(type,fn);}
+  }
+ });
+};
+window.__c=new Component();
+window.render();
+})();
+</script>
+</body>
+</html>
