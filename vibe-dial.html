@@ -79,26 +79,29 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid #B79C
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
 <section style="flex:1 1 380px;max-width:520px">
-<div style="position:relative;width:100%;aspect-ratio:1;border-radius:24px;background:radial-gradient(circle at {{ puckX }} {{ puckY }},#5A4398 0%,#23203A 55%,#1A1A21 100%);border:1.5px solid #3A3848" role="img" aria-label="Dial position: {{ summary }}">
+<div id="pad" onPointerDown="{{ down }}" style="position:relative;width:100%;aspect-ratio:1;border-radius:24px;background:radial-gradient(circle at {{ puckX }} {{ puckY }},#5A4398 0%,#23203A 55%,#1A1A21 100%);border:1.5px solid #3A3848;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none" role="img" aria-label="Dial position: {{ summary }}. Drag to change.">
 <div style="position:absolute;left:50%;top:12px;bottom:12px;width:1px;background:#3A3848"></div>
 <div style="position:absolute;top:50%;left:12px;right:12px;height:1px;background:#3A3848"></div>
 <div style="position:absolute;left:50%;top:12px;transform:translateX(-50%);font-size:13px;font-weight:600;color:#A9A6BA">Energetic</div>
 <div style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);font-size:13px;font-weight:600;color:#A9A6BA">Calm</div>
 <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%) translateY(-18px);font-size:13px;font-weight:600;color:#A9A6BA">Familiar</div>
 <div style="position:absolute;right:14px;top:50%;transform:translateY(-50%) translateY(-18px);font-size:13px;font-weight:600;color:#A9A6BA">New</div>
-<div style="position:absolute;left:{{ puckX }};top:{{ puckY }};width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#B79CFF;box-shadow:0 0 0 8px rgba(183,156,255,.25)"></div>
+<div style="position:absolute;left:{{ puckX }};top:{{ puckY }};width:44px;height:44px;margin:-22px 0 0 -22px;pointer-events:none;border-radius:50%;background:#B79CFF;box-shadow:0 0 0 8px rgba(183,156,255,.25)"></div>
 </div>
+<div style="margin-top:12px;font-size:13px;color:#6F6C80">Drag the dial to steer, or pick a mood above.</div>
 </section>
 <section style="flex:1 1 360px">
 <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:14px"><h2 style="margin:0;font-size:22px;font-weight:700">Your next 5 tracks</h2><span style="font-size:12px;font-weight:700;letter-spacing:.08em;color:#B79CFF">PREVIEW ONLY</span></div>
 <div style="background:#1A1A21;border-radius:16px;padding:8px;margin-bottom:24px">
 <sc-for each="{{ next5 }}" as="n" hint-placeholder-count="5">
-<div style="display:flex;align-items:center;gap:16px;padding:10px 12px"><span class="{{ n.art }} sq" style="width:44px;height:44px"></span><span style="flex:1;min-width:0"><span style="display:block;font-weight:600;font-size:16px">{{ n.title }}</span><span style="display:block;font-size:14px;color:#A9A6BA">{{ n.artist }}</span></span></div>
+<button type="button" onClick="{{ n.pick }}" aria-pressed="{{ n.pressed }}" style="{{ n.style }}"><span class="{{ n.art }} sq" style="width:44px;height:44px"></span><span style="flex:1;min-width:0;text-align:left"><span style="display:block;font-weight:600;font-size:16px">{{ n.title }}</span><span style="display:block;font-size:14px;color:#A9A6BA">{{ n.artist }}</span></span><span style="flex:none;font-size:13px;font-weight:700;color:#B79CFF;padding:6px 12px;border-radius:999px;border:1px solid #3A3848">Why?</span></button>
 </sc-for>
 </div>
-<div style="padding:20px 22px;border-radius:16px;background:#1A1A21;border:1px solid #3A3848;margin-bottom:24px">
-<div style="font-weight:700;font-size:16px;margin-bottom:6px">Why this track?</div>
-<div style="font-size:15px;line-height:1.55;color:#A9A6BA">{{ why }}</div>
+<div aria-live="polite" style="padding:20px 22px;border-radius:16px;background:#1A1A21;border:1px solid #3A3848;margin-bottom:24px">
+<div style="font-weight:700;font-size:16px;margin-bottom:2px">Why this track?</div>
+<div style="font-size:13px;color:#6F6C80;margin-bottom:10px">Tap a track above to see why it was picked</div>
+<div style="font-size:15px;font-weight:700;color:#B79CFF;margin-bottom:4px">{{ selTitle }}</div>
+<div style="font-size:15px;line-height:1.55;color:#A9A6BA">{{ selWhy }} {{ why }}</div>
 </div>
 <div style="display:flex;flex-wrap:wrap;gap:12px">
 <a href="play.html" class="chip" style="padding:14px 22px">Keep current queue</a>
@@ -133,7 +136,23 @@ class DCLogic{constructor(){}setState(p){Object.assign(this.state,p);render();}}
 
 
 class Component extends DCLogic {
-state = { ctx: 'Wind down' };
+state = { ctx: 'Wind down', sel: 0, px: 25, py: 82 };
+drag = false;
+_init = (() => {
+  window.addEventListener('pointermove', e => { if (this.drag) this.move(e); });
+  window.addEventListener('pointerup', () => { this.drag = false; });
+  window.addEventListener('pointercancel', () => { this.drag = false; });
+})();
+move(e) {
+  const pad = document.getElementById('pad'); if (!pad) return;
+  const r = pad.getBoundingClientRect();
+  const cl = v => Math.max(5, Math.min(95, v));
+  const px = cl((e.clientX - r.left) / r.width * 100), py = cl((e.clientY - r.top) / r.height * 100);
+  const P = { 'Focus': [35, 60], 'Commute': [60, 45], 'Workout': [75, 15], 'Wind down': [25, 82] };
+  let best = this.state.ctx, bd = 1e9;
+  for (const k in P) { const dd = (P[k][0] - px) ** 2 + (P[k][1] - py) ** 2; if (dd < bd) { bd = dd; best = k; } }
+  this.setState({ px, py, ctx: best, sel: best === this.state.ctx ? this.state.sel : 0 });
+}
 renderVals() {
 const data = {
 'Focus':     { x: '35%', y: '60%', why: 'Steady tempo and no vocals keep distractions low. Mostly artists you already play.', tracks: [['Resonance','HOME','art-b'],['Holocene','Bon Iver','art-b'],['Outro','M83','art-a'],['Sleep Alone','Bon Iver','art-b'],['A Real Hero','College','art-e']] },
@@ -141,12 +160,16 @@ const data = {
 'Workout':   { x: '75%', y: '15%', why: 'High tempo tracks, with a mix of favourites and new songs to keep you moving.', tracks: [['Nightcall','Kavinsky','art-c'],['Midnight City','M83','art-a'],['New Light','Kavinsky','art-c'],['A Real Hero','College','art-e'],['Outro','M83','art-a']] },
 'Wind down': { x: '25%', y: '82%', why: 'Slow and soft songs you already know, picked to help you relax. Your current song finishes first.', tracks: [['Resonance','HOME','art-b'],['Holocene','Bon Iver','art-b'],['When the Sun Hits','Slowdive','art-d'],['Sleep Alone','Bon Iver','art-b'],['Outro','M83','art-a']] }
 };
+const traits = { 'Resonance': 'Slow and atmospheric, with a steady pulse that keeps the mood low-key', 'Holocene': 'Soft and gentle, an artist you already play', 'When the Sun Hits': 'Dreamy and hazy, a new find for you', 'Sleep Alone': 'Calm and quiet, from an artist you know', 'Outro': 'Long, building and familiar, a favourite of yours', 'Midnight City': 'Upbeat synths with a driving rhythm, a track you know well', 'Nightcall': 'Dark and fast-paced, matches the energy you chose', 'New Light': 'Bright and energetic, new to you', 'A Real Hero': 'Smooth and steady, a new find to keep things fresh' };
 const d = data[this.state.ctx];
 return {
-ctxs: Object.keys(data).map(l => ({ label: l, cls: this.state.ctx === l ? 'fchip fchip-on' : 'fchip', pick: () => this.setState({ ctx: l }) })),
-puckX: d.x, puckY: d.y, why: d.why,
+ctxs: Object.keys(data).map(l => ({ label: l, cls: this.state.ctx === l ? 'fchip fchip-on' : 'fchip', pick: () => this.setState({ ctx: l, sel: 0, px: parseFloat(data[l].x), py: parseFloat(data[l].y) }) })),
+puckX: this.state.px + '%', puckY: this.state.py + '%', why: d.why,
+down: (e) => { e.preventDefault(); this.drag = true; this.move(e); },
 summary: this.state.ctx,
-next5: d.tracks.map(t => ({ title: t[0], artist: t[1], art: t[2] }))
+selTitle: d.tracks[this.state.sel][0] + ' \u00b7 ' + d.tracks[this.state.sel][1],
+selWhy: (traits[d.tracks[this.state.sel][0]] || '') + '.',
+next5: d.tracks.map((t, i) => ({ title: t[0], artist: t[1], art: t[2], pressed: String(i === this.state.sel), pick: () => this.setState({ sel: i }), style: 'display:flex;align-items:center;gap:16px;padding:10px 12px;width:100%;box-sizing:border-box;border:0;border-radius:12px;color:inherit;font:inherit;cursor:pointer;background:' + (i === this.state.sel ? '#23222C' : 'transparent') }))
 };
 }
 }
