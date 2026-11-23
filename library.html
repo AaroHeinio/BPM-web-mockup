@@ -127,17 +127,17 @@ const fs = ['All','Playlists','Albums','Artists','Downloaded'];
 return {
 filters: fs.map(l => ({ label: l, cls: this.state.f === l ? 'fchip fchip-on' : 'fchip', pick: () => this.setState({ f: l }) })),
 pinned: [
-{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'Player-Playlist.dc.html' },
-{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'Player-Playlist.dc.html' },
-{ title: 'Hurry Up', sub: 'Playlist', art: 'art-c', href: 'Player-Playlist.dc.html' }
+{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'playlist.html' },
+{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'playlist.html' },
+{ title: 'Hurry Up', sub: 'Playlist', art: 'art-c', href: 'playlist.html' }
 ],
 items: [
-{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'Player-Playlist.dc.html' },
-{ title: 'Daily Mix 1', sub: 'Playlist', art: 'art-b', href: 'Player-Playlist.dc.html' },
-{ title: 'Hurry Up, We\u2019re Dreaming', sub: 'Album \u00b7 M83', art: 'art-c', href: 'Player-Playlist.dc.html' },
-{ title: 'Discover', sub: 'Playlist', art: 'art-d', href: 'Player-Playlist.dc.html' },
-{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'Player-Playlist.dc.html' },
-{ title: 'Souvlaki', sub: 'Album \u00b7 Slowdive', art: 'art-b', href: 'Player-Playlist.dc.html' }
+{ title: 'Night Drive', sub: 'Playlist', art: 'art-a', href: 'playlist.html' },
+{ title: 'Daily Mix 1', sub: 'Playlist', art: 'art-b', href: 'playlist.html' },
+{ title: 'Hurry Up, We\u2019re Dreaming', sub: 'Album \u00b7 M83', art: 'art-c', href: 'playlist.html' },
+{ title: 'Discover', sub: 'Playlist', art: 'art-d', href: 'playlist.html' },
+{ title: 'Liked Songs', sub: '214 songs', art: 'art-e', href: 'playlist.html' },
+{ title: 'Souvlaki', sub: 'Album \u00b7 Slowdive', art: 'art-b', href: 'playlist.html' }
 ]
 };
 }
